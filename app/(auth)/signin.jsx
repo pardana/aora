@@ -1,10 +1,11 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, Alert } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
 import FormField from "../../components/FormField";
 import CustomButtom from "../../components/CustomButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { signIn, logoutUser } from "../../lib/appwrite";
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -14,7 +15,35 @@ const SignIn = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const submit = () => {};
+  const submit = async () => {
+    if (!form.email || !form.password) {
+      Alert.alert("Error", "All fields are required");
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await signIn(form.email, form.password);
+      console.log("Berhasil login");
+
+      //set it global state
+
+      router.push("/home");
+    } catch (error) {
+      console.log("CATCH ERROR submit: ", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  async function logout() {
+    try {
+      await logoutUser();
+      console.log("Berhasil logoutan");
+    } catch (error) {
+      console.error("Kesalahan saat logoutan:", error);
+    }
+  }
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -48,6 +77,13 @@ const SignIn = () => {
           <CustomButtom
             title="Sign In"
             handlePress={() => submit()}
+            containerStyles="mt-7"
+            isLoading={isSubmitting}
+          />
+
+          <CustomButtom
+            title="logout"
+            handlePress={() => logout()}
             containerStyles="mt-7"
             isLoading={isSubmitting}
           />

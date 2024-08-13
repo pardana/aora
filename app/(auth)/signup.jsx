@@ -27,6 +27,8 @@ const SignUp = () => {
       const result = await createUser(form.email, form.password, form.username);
       console.log("RESULT: ", result);
 
+      //set it global state
+
       router.replace("/home");
     } catch (error) {
       console.log("CATCH ERROR: ", error);
