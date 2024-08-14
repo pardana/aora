@@ -9,9 +9,9 @@ import "react-native-url-polyfill/auto";
 import { useGlobalContext } from "../context/GlobalProvider";
 
 const App = () => {
-  const { isLoading, isLogged } = useGlobalContext();
+  const { isLoading, isLoggedIn } = useGlobalContext();
 
-  if (!isLoading && !isLogged) return <Redirect href={"/home"} />;
+  if (!isLoading && !isLoggedIn) return <Redirect href={"/home"} />;
 
   return (
     <SafeAreaView className="bg-primary h-full">

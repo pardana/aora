@@ -2,27 +2,21 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { getCurrentUser } from "../lib/appwrite";
 
 const GlobalContext = createContext();
-export const useGlobalContext = () => {
-  const context = useContext(GlobalContext);
-  if (!context) {
-    throw new Error("useGlobalContext must be used within a GlobalProvider");
-  }
-  return context;
-};
+export const useGlobalContext = () => useContext(GlobalContext);
 
 const GlobalProvider = ({ children }) => {
-  const [isLogged, setIsLogged] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getCurrentUser()
       .then((res) => {
         if (res) {
-          setIsLogged(true);
+          setIsLoggedIn(true);
           setUser(res);
         } else {
-          setIsLogged(false);
+          setIsLoggedIn(false);
           setUser(null);
         }
       })
@@ -36,7 +30,7 @@ const GlobalProvider = ({ children }) => {
 
   return (
     <GlobalContext.Provider
-      value={(isLogged, setIsLogged, user, setUser, isLoading)}
+      value={{ isLoggedIn, setIsLoggedIn, user, setUser, isLoading }}
     >
       {children}
     </GlobalContext.Provider>
