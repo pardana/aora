@@ -29,9 +29,9 @@ const SignIn = () => {
       console.log("Berhasil login");
 
       //set it global state
-      const result = await getCurrentUser();
-      setUser(result);
-      setIsLogged(true);
+      // const result = await getCurrentUser();
+      // setUser(result);
+      // setIsLogged(true);
 
       Alert.alert("Success", "User signed in successfully");
       router.push("/home");
@@ -87,12 +87,12 @@ const SignIn = () => {
             isLoading={isSubmitting}
           />
 
-          <CustomButtom
+          {/* <CustomButtom
             title="logout"
             handlePress={() => logout()}
             containerStyles="mt-7"
             isLoading={isSubmitting}
-          />
+          /> */}
 
           <View className="justify-center pt-5 flex-row gap-2">
             <Text className="text-lg text-gray-100 font-pregular">
